@@ -22,7 +22,7 @@ class CommentController extends Controller
             $comment->created_at = Carbon::now()->format('Y-m-d H:i:s');
             $comment->updated_at = Carbon::now()->format('Y-m-d H:i:s');
 
-            
+
             // save comment
             $comment->save();
 

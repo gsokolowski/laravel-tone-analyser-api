@@ -11,6 +11,28 @@ class CommentController extends Controller
 {
 
 
+    // http://127.0.0.1:8000/api/comments
+    public function index() {
+        // Display list of skus with attached comments
+        $comments = Comment::all();
+
+
+        $data = array();
+        $i = 0;
+        foreach($comments as $comment) {
+            $data[$i] = $comment;
+            if( count($comment->tone) > 0 ) {
+                $data[$i]['tone'] = $comment->tone;
+            }
+            $i++;
+        }
+
+        return response()->json([
+            'comments' => $data
+        ],200);
+
+    }
+
     public function store(Request $request) {
 
         $comment = new Comment();
@@ -21,6 +43,8 @@ class CommentController extends Controller
             $comment->body = $request->body;
             $comment->created_at = Carbon::now()->format('Y-m-d H:i:s');
             $comment->updated_at = Carbon::now()->format('Y-m-d H:i:s');
+
+
 
 
             // save comment
@@ -50,25 +74,4 @@ class CommentController extends Controller
     }
 
 
-    public function index() {
-        // Display list of skus with attached comments
-        $comments = Comment::all();
-
-
-        $data = array();
-        $i = 0;
-        foreach($comments as $comment) {
-            $data[$i] = $comment;
-            if( count($comment->tone) > 0 ) {
-                $data[$i]['tone'] = $comment->tone;
-            }
-            $i++;
-        }
-
-        return response()->json([
-            'comments' => $data
-        ],200);
-
-
-    }
 }
